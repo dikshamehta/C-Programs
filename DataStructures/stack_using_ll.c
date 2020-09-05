@@ -56,15 +56,42 @@ void pop(){
     }
 }
 
+int peek(){
+    if(head == NULL){
+        printf("underflow");
+    }
+    else{
+
+        return (head->data);
+        
+    }
+}
+
+int length(){
+    NODE* t = head; 
+    int count = 0;
+    while(t != NULL){
+        t = t->next;
+        count = count + 1;
+    }
+    return count;
+}
+    
+
 int main(){
     push(4);
     push(5);
     push(3);
-    
+
     traverse();
 
     pop();
 
     traverse();
+
+    printf("Top element: %d\n", peek());
+
+    printf("Length: %d\n", length());
+
     return 0; 
 }
