@@ -158,7 +158,7 @@ void delete_end(){
  
 }
 
-//=================================deletion_from_mid===================
+//============================deletion_from_mid===================
 
 void delete_mid(int index){
     if(index<0){
@@ -173,26 +173,23 @@ void delete_mid(int index){
         int index_ob = 0; 
         for(int i=0; i<index-1; i++){
             t = t->next;
-            if(t==NULL){
+            if(t==NULL || t->next == NULL){
                 index_ob = 1;
                 break;
             }
         }
+
         if(index_ob){
             printf("Out of bound\n");
         }
         else{
-            if(t->next == NULL){
-                delete_end();
-            }
-            else{
-                NODE *temp;
-                temp = t->next->next;
-                free(t->next);
-                t->next = temp;
+            NODE *temp;
+            temp = t->next->next;
+            free(t->next);
+            t->next = temp;
 
-            }
         }
+        
     }
 }
 
@@ -206,7 +203,7 @@ int main(){
     // delete_end();
     //insert_mid(0, 8);
     traverse();
-    delete_mid(4);
+    delete_mid(3);
     traverse();
     return 0;
 }
