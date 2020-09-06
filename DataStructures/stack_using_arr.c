@@ -8,12 +8,12 @@ int top = -1;
 int arr[N];
 
 void push(int data){
-    if(top < N){
-        top = top + 1;
-        arr[top] = data;
+    if(top == N-1){
+        printf("stack overflow\n");
     }
     else{
-        printf("stack overflow");
+        top = top + 1;
+        arr[top] = data;
     }
 }
 
