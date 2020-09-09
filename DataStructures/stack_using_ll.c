@@ -11,20 +11,27 @@ struct Node{
 
 typedef struct Node NODE;
 
-// NODE* head = NULL;
+struct stack{
+    NODE *top;
+};
+
+typedef struct stack STACK;
+
+//NODE* top = NULL;
 
 //this function is same as insert of linked list
-void push(NODE **head, int data){
+void push(STACK *s, int data){
+    NODE **top = &(s->top); 
     NODE *new_node = (NODE*)malloc(sizeof(NODE));
     new_node -> data = data;
     new_node ->  next = NULL;
 
-    if(*head == NULL){
-        *head = new_node;
+    if(*top == NULL){
+        *top = new_node;
     }
     else{
-        NODE *temp = *head;
-        *head = new_node;
+        NODE *temp = *top;
+        *top = new_node;
         new_node->next = temp;
     }
 }
@@ -32,8 +39,9 @@ void push(NODE **head, int data){
 
 
 
-void traverse(NODE **head){
-    NODE* t = *head; 
+void traverse(STACK *s){
+    NODE **top = &(s->top);
+    NODE* t = *top; 
     if(t == NULL){
         printf("it is empty\n");
     }
@@ -46,35 +54,38 @@ void traverse(NODE **head){
     }
 }
 
-int pop(NODE **head){
-    if(*head == NULL){
+int pop(STACK *s){
+    NODE **top = &(s->top);
+    if(*top == NULL){
         printf("nothing to delete");
         return -1; 
     }
     else{
-        int val = (*head)->data;
-        NODE *temp = *head;
-        *head = (*head)->next;
+        int val = (*top)->data;
+        NODE *temp = *top;
+        *top = (*top)->next;
         free(temp);
         return val;        
     }
 
 }
 
-int peek(NODE **head){
-    if(*head == NULL){
+int peek(STACK *s){
+    NODE **top = &(s->top);
+    if(*top == NULL){
         printf("underflow");
         return -1;
     }
     else{
 
-        return ((*head)->data);
+        return ((*top)->data);
         
     }
 }
 
-int length(NODE **head){
-    NODE* t = *head; 
+int length(STACK *s){
+    NODE **top = &(s->top);
+    NODE* t = *top; 
     int count = 0;
     while(t != NULL){
         t = t->next;
@@ -83,26 +94,28 @@ int length(NODE **head){
     return count;
 }
 
-int isempty(NODE **head){
-    return (*head == NULL);
+int isempty(STACK *s){
+    NODE **top = &(s->top);
+    return (*top == NULL);
 }
     
 
 // int main(){
-//     NODE *head = NULL;
-//     push(&head,4);
-//     push(&head,5);
-//     push(&head,3);
+//     STACK s;
+//     s.top = NULL;
+//     push(&s,4);
+//     push(&s,5);
+//     push(&s,3);
 
-//     traverse(&head);
+//     traverse(&s);
 
-//     pop(&head);
+//     pop(&s);
 
-//     traverse(&head);
+//     traverse(&s);
 
-//     printf("Top element: %d\n", peek(&head));
+//     printf("Top element: %d\n", peek(&s));
 
-//     printf("Length: %d\n", length(&head));
+//     printf("Length: %d\n", length(&s));
 
 //     return 0; 
 // }

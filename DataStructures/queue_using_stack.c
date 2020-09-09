@@ -36,8 +36,13 @@ Method 1 : Making enqueue operation more costly
 #include<stdio.h>
 #include"stack_using_ll.c"  //importing other stack made in other file, plus it is local so " "
 
-NODE *s1;
-NODE *s2;
+STACK s1;
+STACK s2;
+
+void init(){
+    s1.top = NULL;
+    s2.top = NULL;
+}
 
 void enqueue(int data){
     while(!isempty(&s1)){
@@ -64,6 +69,7 @@ void traverse_queue(){
     
 
 int main(){
+    init();
     enqueue(5);
     enqueue(6);
     enqueue(4);
