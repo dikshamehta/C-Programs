@@ -96,7 +96,8 @@ int isoperand(char n){
     }
 }
 
-void evaluate(const char *q, char *p){
+//convert infix to postfix
+void convert(const char *q, char *p){
     STACK s; 
     s.top = NULL;
     push(&s,'(');
@@ -106,6 +107,7 @@ void evaluate(const char *q, char *p){
     strcat(t, ")");
 
     int i = 0;
+
     while(!(isempty(&s))){
         if(isoperand(t[i])){
             strncat(p, &t[i], 1);
@@ -114,7 +116,7 @@ void evaluate(const char *q, char *p){
             push(&s, t[i]);
         }
         else if(isoperator(t[i])){
-            while(isoperator(peek(&s)) && compPrecedence(peek(&s), t[i])>=0 ){
+            while(isoperator(peek(&s)) && compPrecedence(peek(&s), t[i])>=0){
                 char top = pop(&s);
                 strncat(p, &top, 1);
             }
@@ -134,7 +136,7 @@ void evaluate(const char *q, char *p){
 int main(){
     char q[] = "a+(b*c-(d/e^f)*g)*h";
     char *p = (char*)malloc(sizeof(char)*strlen(q)+1);
-    evaluate(q, p);
+    convert(q, p);
     printf("q: %s\n", q);
     printf("p: %s\n", p);
     return 0;
