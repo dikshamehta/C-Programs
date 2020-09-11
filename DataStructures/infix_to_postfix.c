@@ -133,12 +133,12 @@ void convert(const char *q, char *p){
     }
 }
 
-int main(){
-    char q[] = "a+(b*c-(d/e^f)*g)*h";
-    char *p = (char*)malloc(sizeof(char)*strlen(q)+1);
-    convert(q, p);
-    printf("q: %s\n", q);
-    printf("p: %s\n", p);
-    return 0;
-}
+// int main(){
+//     char q[] = "a+(b*c-(d/e^f)*g)*h";
+//     char *p = (char*)malloc(sizeof(char)*strlen(q)+1);
+//     convert(q, p);
+//     printf("q: %s\n", q);
+//     printf("p: %s\n", p);
+//     return 0;
+// }
     
