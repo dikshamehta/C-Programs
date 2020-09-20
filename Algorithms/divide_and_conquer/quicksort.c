@@ -58,31 +58,12 @@ Example:
     return pos
 
 
-Algorithm: 
+complexity : O(nlog(n)) in average case and O(n^2) int worst case 
+expression: T(n) = T(pos-l) + T(r-pos) + n
+best case : pos-l = r-pos = n/2----> T(n) = T(n/2) + T(n/2) + n----> O(nlog(n))
+worst case : pos-l = 0; r-pos = n-1---->T(n)   T(0) + T(n-1) + n----> O(n^2)
 
-    Algorithm partition(arr, l, r) {
-        pos = 0;
-        pivot = arr[l];
 
-        for(j=pos+1; j<=r; j++){
-            if(arr[j]<pivot){
-                pos = pos + 1;
-                swap(arr[pos], arr[j]);
-            }
-        }
-        swap(arr[l], arr[pos]);
-        return pos;
-    }
-
-    Algorithm quick_sort(arr, l, r) {
-        if(l >= r) {
-            return;
-        }
-        int pos = partition(arr, l, r)
-        quick_sort(arr, l, pos-1)
-        quick_sort(arr, pos+1, r)
-    }
-  
 */
 
 #include<stdio.h>
@@ -92,9 +73,6 @@ void swap(int *x, int *y){
     *x = *y;
     *y = temp;
 }
-
-//complexity : O(nlog(n)) in average case and O(n^2) int wprst case 
-//expression: T(n) = 2(t(n/2)) + n;
 
 int partition(int *arr, int l, int r) {
     int pos = l;
