@@ -113,6 +113,40 @@ void traversal_postorder(NODE *parent){
     printf("%d\n", parent->data);
 }
 
+NODE* search_recur(NODE *parent, int data){
+    if(parent == NULL){
+        return NULL;
+    }
+
+    if(data == parent->data){
+        return parent;
+    }
+    else if(data > parent->data){
+        return search_recur(parent->right, data);
+    }
+    else{
+        return search_recur(parent->left, data);
+    }
+}
+
+NODE* search_itr(NODE *parent ,int data){
+
+    while(parent != NULL){
+        if(data == parent->data){
+            break;
+        }
+        else if(data > parent->data){
+            parent = parent->right;
+        }
+        else{
+            parent = parent->left;
+        }    
+    }
+
+    return parent;
+}
+
+
 
 int main(){
     BST tree;
@@ -121,6 +155,9 @@ int main(){
     insert_recur(&(tree.root), 2);
     insert_recur(&(tree.root), 3);
     insert_recur(&(tree.root), 1);
+    insert_recur(&(tree.root), 4);
+    insert_recur(&(tree.root), 5);
+    insert_recur(&(tree.root), 6);
 
     // insert(&tree, 2);
     // insert(&tree, 3);
@@ -134,5 +171,17 @@ int main(){
 
     traversal_postorder(tree.root); //left right root 
 
+    //search
+
+    NODE *ele = search_recur(tree.root, 5);
+    printf("%d\n", ele->data);
+    if(ele == NULL){
+        printf("Not found\n");
+    }
+    else{
+        printf("element found\n");
+    }
+
+    printf("%d\n",search_itr(tree.root, 5));
     return 0;
 }
