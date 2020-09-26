@@ -82,14 +82,35 @@ void insert_recur(NODE **parent, int data){
     }
 }
 
+
+//left root right 
 void traversal_inorder(NODE *parent){
     if(parent == NULL){
         return;
     }
-
     traversal_inorder(parent->left);
     printf("%d\n", parent->data);
     traversal_inorder(parent->right);
+}
+
+//root left right 
+void traversal_preorder(NODE *parent){
+    if(parent == NULL){
+        return;
+    }
+    printf("%d\n", parent->data);
+    traversal_preorder(parent->left);
+    traversal_preorder(parent->right);
+}
+
+//left right root
+void traversal_postorder(NODE *parent){
+    if(parent == NULL){
+        return;
+    }
+    traversal_preorder(parent->left);
+    traversal_preorder(parent->right);
+    printf("%d\n", parent->data);
 }
 
 
@@ -108,5 +129,10 @@ int main(){
  
 
     traversal_inorder(tree.root); //left root right 
+
+    traversal_preorder(tree.root); //root left right
+
+    traversal_postorder(tree.root); //left right root 
+
     return 0;
 }
