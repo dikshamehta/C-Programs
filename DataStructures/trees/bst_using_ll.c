@@ -146,6 +146,59 @@ NODE* search_itr(NODE *parent ,int data){
     return parent;
 }
 
+NODE* minval_node(NODE *root, int key){
+    //if root passed is null 
+    if(root == NULL){
+        return NULL;
+    }
+    //base case, we stop when we reach minimum in tree
+    else if(root->left == NULL){
+        return root;
+    }
+    return minval_node(root->left, key);
+}
+
+NODE* delete_recur(NODE *root, int key){
+    if(root == NULL){
+        return root;
+    }
+
+    //case 1: when key is greater than root's data
+    if(key > root->data){
+        root->right = delete_recur(root->right, key);
+    }
+
+    //case 2: when key is less than root's data
+    else if(key < root->data){
+        root->left = delete_recur(root->left, key);
+    }
+
+    //if key is equal to root's data
+    else{
+        //for one or no child of root node which is equal to key
+        if(root->right == NULL){
+            NODE *temp = root->left;
+            free(root); //delete root
+            return temp;
+        }
+        else{
+            NODE *temp = root->right;
+            free(root); 
+            return temp;
+        }
+
+        //if root node to be deleted is having 2 children
+        NODE* min = minval_node(root->right, key);
+        root->data = min->data;
+        //delete min value from the original place 
+        root->right = delete_recur(root->right, min->data);
+    }
+    return root;
+}
+
+void delete(BST *tree, int key){
+    tree->root = delete_recur(tree->root, key);
+}
 
 
 int main(){
@@ -165,23 +218,28 @@ int main(){
     // insert(&tree, 4);
  
 
-    traversal_inorder(tree.root); //left root right 
+    // traversal_inorder(tree.root); //left root right 
 
-    traversal_preorder(tree.root); //root left right
+    // traversal_preorder(tree.root); //root left right
 
-    traversal_postorder(tree.root); //left right root 
+    // traversal_postorder(tree.root); //left right root 
 
-    //search
+    ////search
 
-    NODE *ele = search_recur(tree.root, 5);
-    printf("%d\n", ele->data);
-    if(ele == NULL){
-        printf("Not found\n");
-    }
-    else{
-        printf("element found\n");
-    }
+    // NODE *ele = search_recur(tree.root, 5);
+    // printf("%d\n", ele->data);
+    // if(ele == NULL){
+    //     printf("Not found\n");
+    // }
+    // else{
+    //     printf("element found\n");
+    // }
 
-    printf("%d\n",search_itr(tree.root, 5));
+    // printf("%d\n",search_itr(tree.root, 5));
+
+    delete(&tree, 4);
+
+    traversal_inorder(tree.root);
+
     return 0;
 }
