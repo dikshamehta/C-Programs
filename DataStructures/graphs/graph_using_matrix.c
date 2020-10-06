@@ -10,7 +10,6 @@ typedef struct Graph GRAPH;
 
 GRAPH* newGraph(int n){
     GRAPH *g = (GRAPH*)malloc(sizeof(GRAPH));
-
     g->n = n;
     printf("hello3\n");
     g->matrix = (int**) malloc(n*sizeof(int*));
@@ -21,7 +20,6 @@ GRAPH* newGraph(int n){
 
     printf("hello1\n");
     return g;
-    
 }
 
 void addEdge(GRAPH *g, int u, int v, int w){
