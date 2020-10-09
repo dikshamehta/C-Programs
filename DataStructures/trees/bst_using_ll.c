@@ -181,7 +181,7 @@ NODE* delete_recur(NODE *root, int key){
             free(root); //delete root
             return temp;
         }
-        else{
+        else if(root->left == NULL){
             NODE *temp = root->right;
             free(root); 
             return temp;
