@@ -132,6 +132,48 @@ void inorderTraversal(NODE *root){
     inorderTraversal(root->right);
 }
 
+NODE* minval_node(NODE *root, int key){
+    if(root == NULL){
+        return NULL;
+    }
+    else if(root->left == NULL){
+        return root;
+    }
+    return minval_node(root->left, key);
+}
+
+NODE* delete(NODE *root ,int key){
+    //BST deletion 
+    if(root == NULL){
+        return root;
+    }
+
+    if(key>root->key){
+        root->right = delete(root->right, key);
+    }
+    else if(key<root->key){
+        root->left = delete(root->left, key);
+    }
+    else{
+        //if single child or no child 
+        if(root->right == NULL){
+            NODE *temp = root->left;
+            free(root)
+            return temp;
+        }
+        else if(root->left == NULL){
+            NODE *temp = root->right;
+            free(root)
+            return temp;
+        }
+        //if two child
+        NODE *suc = minval_node(root->right, key);
+        root->key = suc->key;
+        root->right = delete(root->right, suc->key);
+    }
+    return root;
+}
+
 int main(){
     NODE *root = NULL;
 
