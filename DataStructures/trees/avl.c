@@ -158,19 +158,54 @@ NODE* delete(NODE *root ,int key){
         //if single child or no child 
         if(root->right == NULL){
             NODE *temp = root->left;
-            free(root)
-            return temp;
+            free(root);
+            root = temp;
         }
         else if(root->left == NULL){
             NODE *temp = root->right;
-            free(root)
-            return temp;
+            free(root);
+            root = temp;
         }
-        //if two child
-        NODE *suc = minval_node(root->right, key);
-        root->key = suc->key;
-        root->right = delete(root->right, suc->key);
+        else{
+            //if two child
+            NODE *suc = minval_node(root->right, key);
+            root->key = suc->key;
+            root->right = delete(root->right, suc->key);
+        }
+        
     }
+
+    //AVL procedure
+   
+    if(root!=NULL){
+        root->h = 1+max(height(root->left), height(root->right));
+
+        int bf = balanceFactor(root);
+
+        if(bf>1){
+            //deletion from right subtree
+            int bfl = balanceFactor(root->left);
+            if(bfl>=0){
+                root = rightRotation(root);
+            }
+            else{
+                root->left = leftRotation(root->left);
+                root = rightRotation(root);
+            }
+        }
+        else if(bf<-1){
+            //deletion from left subtree
+            int bfr = balanceFactor(root->right);
+            if(bfr<=0){
+                root = leftRotation(root);
+            }
+            else{
+                root->right = rightRotation(root->right);
+                root = leftRotation(root);
+            }
+        }
+    }
+
     return root;
 }
 
@@ -189,7 +224,14 @@ int main(){
     root = insert(root, 45);
 
     inorderTraversal(root);
+    printf("\n");
+
+    root = delete(root, 90);
+    root = delete(root, 20);
+    root = delete(root, 8);
+
+    inorderTraversal(root);
+    printf("\n");
 
     return 0;
 }
-
