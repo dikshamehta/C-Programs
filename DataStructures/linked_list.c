@@ -6,9 +6,27 @@ struct Node{
     struct Node *next;  
 };
 
+struct LinkedList{
+    struct Node* head; 
+};
+
 typedef struct Node NODE;
 
-NODE* head = NULL;
+typedef struct LinkedList LL;
+
+
+NODE* newNode(int data){
+    NODE *node = (NODE*)malloc(sizeof(NODE));
+    node->data = data;
+    node->next = NULL;
+    return node;
+}
+
+LL* newLinkedList(){
+    LL *l1 = (LL*)malloc(sizeof(LL));
+    l1->head = NULL;
+    return l1;
+}
 
 /*  
 =================Insertion========================
@@ -20,35 +38,32 @@ allocate new node
         head = new_node            
         new_node->next = temp  
 */ 
-void insert(int data){
-    NODE *new_node = (NODE*)malloc(sizeof(NODE));
-    new_node->data = data;  
-    new_node->next = NULL;
 
-    if(head == NULL){
-        head = new_node;   
+void insert(LL *l, int data){
+    NODE *new_node = newNode(data);
+
+    if(l->head == NULL){
+        l->head = new_node;   
     }
     //head --> new_node->next --> old_node, this is how things are stored   
     else{
-        NODE* temp;
-        temp = head;
-        head = new_node;
+        NODE *temp;
+        temp = l->head;
+        l->head = new_node;
         new_node->next = temp; 
     }
 }
 
 //========================Insertion_at_the_end==============================
 
-void insert_end(int data){
+void insert_end(LL *l, int data){
     //making new node 
-    NODE* new_node = (NODE*)malloc(sizeof(NODE));
-    new_node->data = data;
-    new_node->next = NULL;
+    NODE *new_node = newNode(data);
 
     //traversing till the end - t == head, t = t.next 
-    NODE* t = head; 
-    if(head == NULL){
-        head = new_node;
+    NODE *t = l->head; 
+    if(l->head == NULL){
+        l->head = new_node;
         return; 
     }
 
@@ -60,11 +75,9 @@ void insert_end(int data){
 
 //=======================Insertion_in_middle==================
 
-void insert_mid(int data, int index){
+void insert_mid(LL *l, int data, int index){
     //creating new node 
-    NODE *new_node = (NODE*)malloc(sizeof(NODE));
-    new_node->data = data;
-    new_node->next = NULL;
+    NODE *new_node = newNode(data);
 
     //if index is negative
     if(index<0){
@@ -73,12 +86,12 @@ void insert_mid(int data, int index){
     } 
     if(index == 0)
     {
-        insert(data);
+        insert(l, data);
         return;
     }
 
     //insertion at any mid index
-    NODE *t = head;
+    NODE *t = l->head;
 
     int end_reached = 0;
 
@@ -92,7 +105,7 @@ void insert_mid(int data, int index){
 
     if(end_reached){
         printf("adding in the end because u r dumb\n");
-        insert_end(data);
+        insert_end(l, data);
     }
     else{
         NODE *temp = t;
@@ -106,8 +119,8 @@ void insert_mid(int data, int index){
 
 
 /* =======================Traversal=========================== */
-void traverse(){
-    NODE* t = head; 
+void traverse(LL *l){
+    NODE* t = l->head; 
     if(t == NULL){
         printf("it is empty\n");
     }
@@ -122,34 +135,34 @@ void traverse(){
 
 /*======================deletion_from_start===============================*/
 
-void delete(){
-    if(head == NULL){
+void delete(LL *l){
+    if(l->head == NULL){
         printf("it is empty\n");
     }
     else{
-        NODE *temp = head;
-        head = head->next;
+        NODE *temp = l->head;
+        l->head = l->head->next;
         free(temp);
     }
 }
 
 //=======================deletion_at_end===================================
-void delete_end(){
+void delete_end(LL *l){
     //if list is empty
-    if(head == NULL){
+    if(l->head == NULL){
         printf("nothing to delete\n");
         return;
     }
 
     //if list is having only one element
-    if(head->next == NULL){
-        free(head);
-        head = NULL;
+    if(l->head->next == NULL){
+        free(l->head);
+        l->head = NULL;
         return;
     }
 
     //if more than one element
-    NODE *t = head; 
+    NODE *t = l->head; 
     while(t->next->next!=NULL){
         t = t->next;
     }
@@ -160,16 +173,16 @@ void delete_end(){
 
 //============================deletion_from_mid===================
 
-void delete_mid(int index){
+void delete_mid(LL *l, int index){
     if(index<0){
         printf("please enter valid index\n");
     }
     else if(index == 0){
-        delete();
+        delete(l);
     }
 
     else{
-        NODE *t = head;
+        NODE *t = l->head;
         int index_ob = 0; 
         for(int i=0; i<index-1; i++){
             t = t->next;
@@ -193,17 +206,20 @@ void delete_mid(int index){
     }
 }
 
-int main(){
-    insert(3);
-    insert(4);
-    insert(8);
-    insert(5);
-    // insert_end(9);
-    // delete();
-    // delete_end();
-    //insert_mid(0, 8);
-    traverse();
-    delete_mid(3);
-    traverse();
-    return 0;
-}
+
+
+// int main(){
+//     LL *l1 = newLinkedList();
+//     insert(l1, 3);
+//     insert(l1, 4);
+//     insert(l1, 8);
+//     insert(l1, 5);
+//     // insert_end(9);
+//     // delete();
+//     // delete_end();
+//     //insert_mid(0, 8);
+//     traverse(l1);
+//     delete_mid(l1, 3);
+//     traverse(l1);
+//     return 0;
+// }
