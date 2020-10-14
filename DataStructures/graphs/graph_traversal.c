@@ -2,6 +2,8 @@
 #include<string.h>
 #include"graph_using_matrix.c"
 #include"../stack_using_ll.c"
+#include"../queue_using_ll.c"
+
 
 void dfsTraversal(GRAPH *g, int start_node, int n){
     STACK s;
@@ -34,6 +36,31 @@ void dfsTraversal(GRAPH *g, int start_node, int n){
     printf("\n");
 }
 
+void bfsTraversal(GRAPH *g, int start_node, int n){
+    QUEUE q;
+    q.front = NULL;
+    q.rear = NULL; 
+
+    int visited[n];
+    memset(visited, 0, n*sizeof(int));
+    visited[start_node] = 1;
+    enqueue(&q, start_node);
+    printf("%d ", start_node); 
+
+    while(!isemptyQ(&q)){
+        int rear = q.rear->data; 
+        for(int i=0; i<g->n; i++){
+            if(g->matrix[rear][i] && !visited[i]){
+                visited[i] = 1;
+                printf("%d ", i);
+                enqueue(&q, i);
+            }
+        }
+        dequeue(&q);
+    }
+    printf("\n");
+}
+
 int main(){
     int n = 8;
     GRAPH *g = newGraph(n);
@@ -51,9 +78,11 @@ int main(){
     addEdgeUndirected(g, 5, 6, 1);
     addEdgeUndirected(g, 6, 7, 1);
 
-    display(g);
+    //display(g);
 
-    dfsTraversal(g, 1, n);
+    //dfsTraversal(g, 1, n);
+
+    bfsTraversal(g, 1, n);
 
 }
 

@@ -1,24 +1,24 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-struct Node{
+struct NodeQ{
     int data;
-    struct Node *next;
-    struct Node *prev;
+    struct NodeQ *next;
+    struct NodeQ *prev;
 };
 
-typedef struct Node NODE;
+typedef struct NodeQ NodeQ;
 
 //making structure of front and rear
 struct Queue{
-    NODE *front;
-    NODE *rear;
+    NodeQ *front;
+    NodeQ *rear;
 };
 
 typedef struct Queue QUEUE;
 
-// NODE *front = NULL;
-// NODE *rear = NULL;
+// NodeQ *front = NULL;
+// NodeQ *rear = NULL;
 
 
 void enqueue(QUEUE *q, int data){
@@ -27,37 +27,37 @@ void enqueue(QUEUE *q, int data){
     
     //&(q->front) this means address of front variable store inside queue and similarly with rear 
     //also here we are taking **front as the value of front pointer of struct can change in this function
-    NODE **front = &(q->front);
-    NODE **rear = &(q->rear);
+    NodeQ **front = &(q->front);
+    NodeQ **rear = &(q->rear);
 
-    NODE *new_node = (NODE*)malloc(sizeof(NODE));
-    new_node -> data = data;
-    new_node -> next = NULL;
-    new_node -> prev = NULL;
+    NodeQ *new_NodeQ = (NodeQ*)malloc(sizeof(NodeQ));
+    new_NodeQ -> data = data;
+    new_NodeQ -> next = NULL;
+    new_NodeQ -> prev = NULL;
 
     if(*rear == NULL){
-        *rear = new_node;
-        *front = new_node;
+        *rear = new_NodeQ;
+        *front = new_NodeQ;
     }
     else{
-        NODE *temp = *rear;
-        *rear = new_node;
-        new_node->next = temp;
-        temp->prev = new_node;
+        NodeQ *temp = *rear;
+        *rear = new_NodeQ;
+        new_NodeQ->next = temp;
+        temp->prev = new_NodeQ;
     }
 
 }
 
 int dequeue(QUEUE *q){
-    NODE **front = &(q->front);
-    NODE **rear = &(q->rear);
+    NodeQ **front = &(q->front);
+    NodeQ **rear = &(q->rear);
 
     if(*rear == NULL){
         printf("empty queue");
         return -1;
     }
     else{
-        NODE *temp = *front;
+        NodeQ *temp = *front;
         int data = (*front)->data;
         if(*rear == *front){
             //only one element in the queue 
@@ -73,13 +73,13 @@ int dequeue(QUEUE *q){
     }
 }
 
-void traverse(QUEUE *q){
-    NODE **rear = &(q->rear);
+void traverseQ(QUEUE *q){
+    NodeQ **rear = &(q->rear);
     if(*rear == NULL){
         printf("No element\n");
         return;
     }
-    NODE *t = *rear; 
+    NodeQ *t = *rear; 
     while(t != NULL){
         printf("%d ", t->data);
         t = t->next;
@@ -87,7 +87,7 @@ void traverse(QUEUE *q){
     printf("\n");
 }
 
-int isempty(QUEUE *q){
+int isemptyQ(QUEUE *q){
     return (q->rear == NULL);
 }
 
@@ -99,17 +99,17 @@ int isempty(QUEUE *q){
 //     enqueue(&q1, 3);
 //     enqueue(&q1, 5);
 
-//     traverse(&q1);
+//     traverseQ(&q1);
 
 //     dequeue(&q1);
 //     dequeue(&q1);
 //     dequeue(&q1);
 
-//     traverse(&q1);
+//     traverseQ(&q1);
 
 //     enqueue(&q1, 6);
 
-//     traverse(&q1);
+//     traverseQ(&q1);
 
 //     return 0; 
 // }
