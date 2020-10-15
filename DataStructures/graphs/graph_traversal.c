@@ -48,9 +48,9 @@ void bfsTraversal(GRAPH *g, int start_node, int n){
     printf("%d ", start_node); 
 
     while(!isemptyQ(&q)){
-        int rear = q.rear->data; 
+        int front = q.front->data; 
         for(int i=0; i<g->n; i++){
-            if(g->matrix[rear][i] && !visited[i]){
+            if(g->matrix[front][i] && !visited[i]){
                 visited[i] = 1;
                 printf("%d ", i);
                 enqueue(&q, i);
@@ -80,7 +80,7 @@ int main(){
 
     //display(g);
 
-    //dfsTraversal(g, 1, n);
+    dfsTraversal(g, 1, n);
 
     bfsTraversal(g, 1, n);
 
