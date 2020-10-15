@@ -63,20 +63,20 @@ void bfsTraversal(GRAPH *g, int start_node, int n){
 
 int main(){
     int n = 8;
-    GRAPH *g = newGraph(n);
+    GRAPH *g = newAMGraph(n);
 
     //creation of graph
-    addEdgeUndirected(g, 1, 2, 1);
-    addEdgeUndirected(g, 1, 5, 1);
-    addEdgeUndirected(g, 1, 4, 1);
-    addEdgeUndirected(g, 2, 5, 1);
-    addEdgeUndirected(g, 2, 3, 1);
-    addEdgeUndirected(g, 3, 5, 1);
-    addEdgeUndirected(g, 3, 6, 1);
-    addEdgeUndirected(g, 3, 7, 1);
-    addEdgeUndirected(g, 4, 5, 1);
-    addEdgeUndirected(g, 5, 6, 1);
-    addEdgeUndirected(g, 6, 7, 1);
+    addAMEdgeUndirected(g, 1, 2, 1);
+    addAMEdgeUndirected(g, 1, 5, 1);
+    addAMEdgeUndirected(g, 1, 4, 1);
+    addAMEdgeUndirected(g, 2, 5, 1);
+    addAMEdgeUndirected(g, 2, 3, 1);
+    addAMEdgeUndirected(g, 3, 5, 1);
+    addAMEdgeUndirected(g, 3, 6, 1);
+    addAMEdgeUndirected(g, 3, 7, 1);
+    addAMEdgeUndirected(g, 4, 5, 1);
+    addAMEdgeUndirected(g, 5, 6, 1);
+    addAMEdgeUndirected(g, 6, 7, 1);
 
     //display(g);
 
