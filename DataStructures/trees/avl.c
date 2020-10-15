@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+
 struct Node{
     int key;
     int h; 
@@ -13,19 +14,33 @@ struct Node{
 
 typedef struct Node NODE;
 
+struct AVLTree{
+    NODE* root;
+};
+
+typedef struct AVLTree AVL;
+
+AVL* newAVLTree(){
+    AVL *t = (AVL*) malloc(sizeof(AVL));
+    t->root = NULL;
+
+    return t;
+}
+
+
 //inline this function will sbstitute there where ever we call this 
 static inline int max(int x, int y){
     return (x>y)?x:y ;
 }
 
-int height(NODE *t){
+static int height(NODE *t){
     if(t == NULL){
         return 0;
     }
     return t->h;
 }
 
-NODE* newNode(int key){
+NODE* newAVLNode(int key){
     NODE *t = (NODE*)malloc(sizeof(NODE));
     t->key = key;
     t->h = 1;
@@ -35,7 +50,7 @@ NODE* newNode(int key){
     return t;
 }
 
-NODE* leftRotation(NODE *t){
+static NODE* leftRotation(NODE *t){
     //if t is null
     if(t == NULL){
         return NULL;
@@ -53,7 +68,7 @@ NODE* leftRotation(NODE *t){
     return temp;
 }
 
-NODE* rightRotation(NODE *t){
+static NODE* rightRotation(NODE *t){
     //if t is null
     if(t == NULL){
         return NULL;
@@ -71,23 +86,23 @@ NODE* rightRotation(NODE *t){
     return temp;
 }
 
-int balanceFactor(NODE *root){
+static int balanceFactor(NODE *root){
     if(root == NULL){
         return 0;
     }
     return height(root->left) - height(root->right);
 }
 
-NODE* insert(NODE *root, int key){
+static NODE* insert_node(NODE *root, int key){
     //inserting just like in BST 
     if(root == NULL){
-        return newNode(key);
+        return newAVLNode(key);
     }
     if(key>root->key){
-        root->right = insert(root->right, key);
+        root->right = insert_node(root->right, key);
     }
     else if(key<root->key){
-        root->left = insert(root->left, key);
+        root->left = insert_node(root->left, key);
     }
     else{
         return root;
@@ -123,7 +138,11 @@ NODE* insert(NODE *root, int key){
     return root; 
 }
 
-void inorderTraversal(NODE *root){
+void avlInsertion(AVL *t, int key){
+    t->root = insert_node(t->root, key);
+}
+
+static void inorderTraversal(NODE *root){
     if(root == NULL){
         return;
     }
@@ -132,7 +151,11 @@ void inorderTraversal(NODE *root){
     inorderTraversal(root->right);
 }
 
-NODE* minval_node(NODE *root, int key){
+void inorderAVLTraversal(AVL* t){
+    inorderTraversal(t->root);
+}
+
+static NODE* minval_node(NODE *root, int key){
     if(root == NULL){
         return NULL;
     }
@@ -142,7 +165,7 @@ NODE* minval_node(NODE *root, int key){
     return minval_node(root->left, key);
 }
 
-NODE* delete(NODE *root ,int key){
+static NODE* delete(NODE *root ,int key){
     //BST deletion 
     if(root == NULL){
         return root;
@@ -209,29 +232,34 @@ NODE* delete(NODE *root ,int key){
     return root;
 }
 
-int main(){
-    NODE *root = NULL;
-
-    root = insert(root, 12);
-    root = insert(root, 90);
-    root = insert(root, 8);
-    root = insert(root, 20);
-    root = insert(root, 13);
-    root = insert(root, 15);
-    root = insert(root, 19);
-    root = insert(root, 62);
-    root = insert(root, 70);
-    root = insert(root, 45);
-
-    inorderTraversal(root);
-    printf("\n");
-
-    root = delete(root, 90);
-    root = delete(root, 20);
-    root = delete(root, 8);
-
-    inorderTraversal(root);
-    printf("\n");
-
-    return 0;
+void avlDeletion(AVL* t, int key){
+    t->root = delete(t->root, key);
 }
+
+// int main(){
+
+//     AVL *t = newAVLTree();
+    
+//     avlInsertion(t, 12);
+//     avlInsertion(t, 90);
+//     avlInsertion(t, 8);
+//     avlInsertion(t, 20);
+//     avlInsertion(t, 13);
+//     avlInsertion(t, 15);
+//     avlInsertion(t, 19);
+//     avlInsertion(t, 62);
+//     avlInsertion(t, 70);
+//     avlInsertion(t, 45);
+
+//     inorderAVLTraversal(t);
+//     printf("\n");
+
+//     avlDeletion(t, 90);
+//     avlDeletion(t, 20);
+//     avlDeletion(t, 8);
+
+//     inorderAVLTraversal(t);
+//     printf("\n");
+
+//     return 0;
+// }
