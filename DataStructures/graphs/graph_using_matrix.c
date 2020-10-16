@@ -1,15 +1,15 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-struct Graph{
+struct Graph_am{
     int n; //no. of vertices 
     int **matrix;
 };
 
-typedef struct Graph GRAPH;
+typedef struct Graph_am GRAPH_AM;
 
-GRAPH* newAMGraph(int n){
-    GRAPH *g = (GRAPH*)malloc(sizeof(GRAPH));
+GRAPH_AM* newAMGraph(int n){
+    GRAPH_AM *g = (GRAPH_AM*)malloc(sizeof(GRAPH_AM));
     g->n = n;
     g->matrix = (int**) malloc(n*sizeof(int*));
 
@@ -19,7 +19,7 @@ GRAPH* newAMGraph(int n){
     return g;
 }
 
-void addAMEdge(GRAPH *g, int u, int v, int w){
+void addAMEdge(GRAPH_AM *g, int u, int v, int w){
     if(u>=g->n || v>=g->n){
         printf("index out of bound");
         return;
@@ -27,12 +27,12 @@ void addAMEdge(GRAPH *g, int u, int v, int w){
     g->matrix[u][v] = w;
 }
 
-void addAMEdgeUndirected(GRAPH *g, int u, int v, int w){
+void addAMEdgeUndirected(GRAPH_AM *g, int u, int v, int w){
     addAMEdge(g, u, v, w);
     addAMEdge(g, v, u, w);
 }
 
-int getAMEdge(GRAPH *g, int u, int v){
+int getAMEdge(GRAPH_AM *g, int u, int v){
 
     if(u>=g->n || v>=g->n){
     printf("index out of bound");
@@ -42,7 +42,7 @@ int getAMEdge(GRAPH *g, int u, int v){
     return g->matrix[u][v];
 }
 
-void displayAM(GRAPH *g){
+void displayAM(GRAPH_AM *g){
     printf("Size: %d\n", g->n);
     for(int i=0; i<g->n; i++){
         for(int j=0; j<g->n; j++){
@@ -54,7 +54,7 @@ void displayAM(GRAPH *g){
 
 // int main(){
 //     int n = 5;
-//     GRAPH *g = newAMGraph(n);
+//     GRAPH_AM *g = newAMGraph(n);
 //     displayAM(g);
 
 //     printf("\n");
