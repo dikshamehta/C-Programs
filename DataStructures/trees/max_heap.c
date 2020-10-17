@@ -1,47 +1,59 @@
 #include<stdio.h>
-#define MAXCAP 15
+#include<stdlib.h>
+#define MAXCAP 15 //maximum capacity
 
-int arr[MAXCAP];
 
-int size = 0;
+struct Heap{
+    int *arr;
+    int size;
+};
 
-void init(){
-    for(int i=0; i<MAXCAP; i++){
-        arr[i] = -1;
+typedef struct Heap HEAP;
+
+HEAP* newHeap(int maxcap){ 
+    HEAP* h = (HEAP*)malloc(sizeof(HEAP));
+    h->arr = (int*)malloc(sizeof(int) * maxcap); 
+
+    for(int i=0; i<maxcap; i++){
+        h->arr[i] = -1;
     }
+
+    h->size = 0;
+    return h;
 }
 
-void swap(int *x, int *y){
+static void swap(int *x, int *y){
     int temp = *x;
     *x = *y;
     *y = temp;
 }
 
-void heapify_up(int pos){
+//to arrange newly added element according to heap's property
+static void heapify_up(HEAP *h, int pos){
     int child = pos;
     int parent = (child - 1)/2;
 
-    while(arr[child] > arr[parent]){
-        swap(&arr[child], &arr[parent]);
-        child = parent;
-        parent = (parent - 1)/2;
+    while(h->arr[child] > h->arr[parent]){
+        swap(&(h->arr[child]), &(h->arr[parent]));
+        child = parent; //update the child as parent 
+        parent = (parent - 1)/2; //update the current parent as parent of current parent 
     }
     return;
 }
 
-void insertion(int data){
-    if(size==MAXCAP){
+void insertion(HEAP *h, int data){ 
+    if(h->size==MAXCAP){
         printf("overflow");
         return;
     }
-    arr[size] = data;
-    heapify_up(size);
-    size = size+1;
+    h->arr[h->size] = data;
+    heapify_up(h, h->size);
+    h->size = (h->size)+1;
     return;
 }
 
-void heapify_down(int parent){
-    if(arr[parent] == -1){
+static void heapify_down(HEAP *h, int parent){
+    if(h->arr[parent] == -1){
         return;
     }
 
@@ -50,17 +62,18 @@ void heapify_down(int parent){
 
     int child;
 
-    if(child_l>=size && child_r>=size){
+    //if there are no children 
+    if(child_l>=h->size && child_r>=h->size){
         return;
     }
-    else if(child_l>=size){
+    else if(child_l>=h->size){ //only right child exist
         child = child_r;
     }
-    else if(child_r>=size){
+    else if(child_r>=h->size){ //only left child exist
         child = child_l;
     }
-    else{
-        if(arr[child_l]>arr[child_r]){
+    else{ //when both child exists
+        if(h->arr[child_l]>h->arr[child_r]){
             child = child_l;
         }
         else{
@@ -68,46 +81,51 @@ void heapify_down(int parent){
         }
     }
 
-    if(arr[child]>arr[parent]){
-        swap(&arr[child], &arr[parent]);
+    //check if largest check is larger than parent or not
+    if(h->arr[child]>h->arr[parent]){
+        swap(&(h->arr[child]), &(h->arr[parent]));
     }
-    heapify_down(child);
+
+    //recursion 
+    heapify_down(h, child);
 }
 
-void deletion(){
-    int pos = size-1;
-    swap(&arr[0], &arr[pos]);
-    arr[pos] = -1;
-    size = pos;
+void deletion(HEAP *h){
+    int pos = (h->size)-1;
+    swap(&(h->arr[0]), &(h->arr[pos]));
+    h->arr[pos] = -1;
+    h->size = pos;
 
-    heapify_down(0);
+    heapify_down(h, 0);
 }
 
-void display(){
-    for(int i=0; i<size; i++){
-        printf("%d ", arr[i]);
+void display(HEAP *h){
+    for(int i=0; i<h->size; i++){
+        printf("%d ", h->arr[i]);
     }
     printf("\n");
 }
 
 int main(){
-    init();
 
-    insertion(87);
-    insertion(90);
-    insertion(85);
-    insertion(80);
-    insertion(86);
-    insertion(88);
-    insertion(100);
+    int maxcap = 15;
+    HEAP *h = newHeap(maxcap); 
 
-    display();
+    insertion(h, 87);
+    insertion(h, 90);
+    insertion(h, 85);
+    insertion(h, 80);
+    insertion(h, 86);
+    insertion(h, 88);
+    insertion(h, 100);
 
-    deletion();
-    display();
+    display(h);
 
-    deletion();
-    display();
+    deletion(h);
+    display(h);
+
+    deletion(h);
+    display(h);
 
     return 0;
 
