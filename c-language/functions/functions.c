@@ -31,7 +31,10 @@ int main() {
 	printf("%p\n", ptr);
 
 	xyz();
+	
 	(*ptr)();
+
+	ptr();
 
 	perform_action(&xyz);
 }

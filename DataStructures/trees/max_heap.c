@@ -90,13 +90,15 @@ static void heapify_down(HEAP *h, int parent){
     heapify_down(h, child);
 }
 
-void deletion(HEAP *h){
+int deletion(HEAP *h){
     int pos = (h->size)-1;
+    int ele = h->arr[0];
     swap(&(h->arr[0]), &(h->arr[pos]));
     h->arr[pos] = -1;
     h->size = pos;
 
     heapify_down(h, 0);
+    return ele;
 }
 
 void display(HEAP *h){
@@ -106,27 +108,31 @@ void display(HEAP *h){
     printf("\n");
 }
 
-int main(){
-
-    int maxcap = 15;
-    HEAP *h = newHeap(maxcap); 
-
-    insertion(h, 87);
-    insertion(h, 90);
-    insertion(h, 85);
-    insertion(h, 80);
-    insertion(h, 86);
-    insertion(h, 88);
-    insertion(h, 100);
-
-    display(h);
-
-    deletion(h);
-    display(h);
-
-    deletion(h);
-    display(h);
-
-    return 0;
-
+int getRoot(HEAP* h){
+    return h->arr[0];
 }
+
+// int main(){
+
+//     int maxcap = 15;
+//     HEAP *h = newHeap(maxcap); 
+
+//     insertion(h, 87);
+//     insertion(h, 90);
+//     insertion(h, 85);
+//     insertion(h, 80);
+//     insertion(h, 86);
+//     insertion(h, 88);
+//     insertion(h, 100);
+
+//     display(h);
+
+//     deletion(h);
+//     display(h);
+
+//     deletion(h);
+//     display(h);
+
+//     return 0;
+
+// }
